@@ -1,9 +1,10 @@
 #include "sprite.hpp"
 
-Sprite::Sprite(const int &sprite_health, const int &sprite_stamina,
-               const int &sprite_shield, const Position &position)
+Sprite::Sprite(const std::string &display_value, const int &sprite_health,
+               const int &sprite_stamina, const int &sprite_shield,
+               const Position &position)
     : sprite_health(sprite_health), sprite_stamina(sprite_stamina),
-      sprite_shield(sprite_shield), Object(position) {}
+      sprite_shield(sprite_shield), Object(display_value, position) {}
 
 int &Sprite::get_sprite_health() { return sprite_health; }
 int &Sprite::get_sprite_stamina() { return sprite_stamina; }
