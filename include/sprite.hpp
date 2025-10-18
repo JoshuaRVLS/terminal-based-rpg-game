@@ -13,8 +13,8 @@ protected:
   int sprite_shield;
 
 public:
-  Sprite(const int &health, const int &stamina, const int &shield,
-         const Position &position);
+  Sprite(const std::string &display_value, const int &health,
+         const int &stamina, const int &shield, const Position &position);
   ~Sprite() = default;
 
   int &get_sprite_health();
