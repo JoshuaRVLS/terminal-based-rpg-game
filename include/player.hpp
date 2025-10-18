@@ -11,6 +11,8 @@ class Player : public Sprite {
   std::vector<std::unique_ptr<Item>> player_items;
 
 public:
+  Player(const std::string &display_value, const Position &position);
+
   void attack(Sprite &target, Weapon &weapon) override;
   void use_skill(const int &skill_id) override;
   void use_item(const uint8_t &item_id) override;
