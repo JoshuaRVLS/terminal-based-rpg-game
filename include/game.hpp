@@ -10,6 +10,7 @@
 class Game {
 
   bool running = true;
+  bool game_start = false;
   Player *player;
   std::vector<std::vector<std::vector<std::unique_ptr<Object>>>> maps;
 
@@ -18,8 +19,10 @@ class Game {
   void render();
   void generate_map();
   void render_map();
-  void generate_player();
+  void generate_player(PlayerClass player_class);
   void handle_movement();
+  void main_menu();
+  void render_info();
 
 public:
   Game();
