@@ -15,5 +15,5 @@ void clear_screen();
 #ifdef __linux__
 char getch();
 #endif
-double generateNumber(int lowerBound, int higherBound);
+double generateNumber(double lowerBound, double higherBound);
 } // namespace utils
