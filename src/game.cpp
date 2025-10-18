@@ -3,7 +3,15 @@
 #include <conio.h>
 #include <game.hpp>
 
+#ifdef __linux__
+#include "utils.hpp"
+using namespace utils;
+#endif
+
 void Game::start() {
+  while (!game_start) {
+    main_menu();
+  }
   while (running) {
     utils::clear_screen();
     update();
@@ -12,15 +20,28 @@ void Game::start() {
   }
 }
 
-void Game::render() { render_map(); }
-
-void Game::init() {
-  generate_map();
-  generate_player();
+void Game::render() {
+  render_map();
+  render_info();
 }
 
-void Game::generate_player() {
-  auto new_player = std::make_unique<Player>("P", Position(10, 10));
+void Game::render_info() {
+  std::cout << "Name: " << player->get_name() << std::endl;
+  std::cout << "HP: " << player->get_sprite_health() << std::endl;
+  std::cout << "Stamina: " << player->get_sprite_stamina() << std::endl;
+  std::cout << "Shield: " << player->get_sprite_stamina() << std::endl;
+  std::cout << "Coins: " << player->get_coins() << std::endl;
+  std::cout << "Press 1: Open Shop, 2: Check Inventory, 3: Check Skills"
+            << std::endl;
+  std::cout << "Press W: up, S: down, A: left, D: right, q = quit."
+            << std::endl;
+}
+
+void Game::init() { generate_map(); }
+
+void Game::generate_player(PlayerClass player_class) {
+  auto new_player =
+      std::make_unique<Player>("P", player_class, Position(10, 10));
   player = new_player.get();
   maps[10][10].insert(maps[10][10].begin(), std::move(new_player));
 }
@@ -79,6 +100,44 @@ void Game::handle_movement() {
     maps[new_y][new_x].insert(maps[new_y][new_x].begin(),
                               std::move(player_obj));
     player->get_position().set_position(new_x, new_y);
+  }
+}
+
+void Game::main_menu() {
+  std::cout << "<====================Welcome to JRPG=====================>"
+            << std::endl;
+  std::cout << "[1] Knight\n[2] Mage\n[3] Spearman\nSelect your class: "
+            << std::endl;
+  char option = getch();
+  switch (option) {
+  case '1':
+    generate_player(KNIGHT);
+    break;
+  case '2':
+    generate_player(MAGE);
+    break;
+  case '3':
+    generate_player(SPEARMAN);
+    break;
+  }
+  std::cout << "You choose " << player->get_class()
+            << " Press ENTER to continue." << std::endl;
+  getch();
+  utils::clear_screen();
+  std::cout << "<====================Welcome to JRPG=====================>"
+            << std::endl;
+  std::cout << "What is your name?: ";
+  std::cin >> player->get_name();
+  std::cout << "Your name now is " << player->get_name() << " [ENTER]";
+  getch();
+  std::cout << "You ready (y/n)?";
+  char key = getch();
+  if (key == 'Y' || key == 'y') {
+    utils::clear_screen();
+    game_start = true;
+  } else {
+    std::cout << "NOOB!" << std::endl;
+    exit(0);
   }
 }
 
