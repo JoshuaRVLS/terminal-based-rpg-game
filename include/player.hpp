@@ -1,5 +1,4 @@
 #pragma once
-#include "item.hpp"
 #include "sprite.hpp"
 #include "weapon.hpp"
 #include <memory>
@@ -7,12 +6,10 @@
 enum PlayerClass { KNIGHT, MAGE, SPEARMAN };
 
 class Player : public Sprite {
-
   std::string name;
   PlayerClass player_class;
   int player_coins;
   std::vector<std::unique_ptr<Weapon>> player_weapons;
-  std::vector<std::unique_ptr<Item>> player_items;
 
   void init();
 
@@ -32,4 +29,10 @@ public:
 
   std::string &get_name();
   int &get_coins();
+
+  const std::vector<std::unique_ptr<Weapon>> &get_weapons() const;
+  std::vector<Weapon *> get_weapons_pointers() const;
+
+  void add_weapon(std::unique_ptr<Weapon> weapon);
+  void remove_weapon(int index);
 };
