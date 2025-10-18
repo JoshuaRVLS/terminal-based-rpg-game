@@ -5,9 +5,10 @@
 class Object {
 
   Position position;
+  std::string display_value;
 
 public:
-  Object(const Position &position);
+  Object(const std::string &display_value, const Position &position);
   virtual ~Object() = default;
 
   Position &get_position();
