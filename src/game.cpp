@@ -1,4 +1,5 @@
 #include "utils.hpp"
+#include <algorithm>
 #include <conio.h>
 #include <game.hpp>
 
@@ -7,11 +8,7 @@ void Game::start() {
     utils::clear_screen();
     update();
     render();
-    char a = getch();
-    if (a == 'q') {
-      running = false;
-      exit(0);
-    }
+    handle_movement();
   }
 }
 
@@ -23,9 +20,66 @@ void Game::init() {
 }
 
 void Game::generate_player() {
-  auto new_player = std::make_unique<Player>("P", Position(1, 1));
-  maps[1][1].insert(maps[1][1].begin(), std::move(new_player));
-  player = std::make_unique<Player>("P", Position(1, 1));
+  auto new_player = std::make_unique<Player>("P", Position(10, 10));
+  player = new_player.get();
+  maps[10][10].insert(maps[10][10].begin(), std::move(new_player));
+}
+
+void Game::handle_movement() {
+  char key = _getch();
+  int current_x = player->get_position().get_x();
+  int current_y = player->get_position().get_y();
+  int new_x = current_x;
+  int new_y = current_y;
+
+  switch (key) {
+  case 'w':
+    new_y--;
+    break;
+  case 's':
+    new_y++;
+    break;
+  case 'a':
+    new_x--;
+    break;
+  case 'd':
+    new_x++;
+    break;
+  case 'q':
+    exit(0);
+    break;
+  default:
+    return;
+  }
+
+  // Boundary check
+  if (new_x < 0 || new_x >= maps[0].size() || new_y < 0 ||
+      new_y >= maps.size()) {
+    return;
+  }
+
+  // Check if target is not a wall
+  if (auto *env = dynamic_cast<Environment *>(maps[new_y][new_x][0].get())) {
+    if (env->get_value() == "#") {
+      return;
+    }
+  }
+
+  auto &current_cell = maps[current_y][current_x];
+  auto player_it =
+      std::find_if(current_cell.begin(), current_cell.end(),
+                   [this](const std::unique_ptr<Object> &entity) {
+                     return dynamic_cast<Player *>(entity.get()) == player;
+                   });
+
+  if (player_it != current_cell.end()) {
+    auto player_obj = std::move(*player_it);
+    current_cell.erase(player_it);
+
+    maps[new_y][new_x].insert(maps[new_y][new_x].begin(),
+                              std::move(player_obj));
+    player->get_position().set_position(new_x, new_y);
+  }
 }
 
 void Game::update() {}
@@ -63,6 +117,9 @@ void Game::render_map() {
       if (!layer.empty() && layer[0]) {
         if (auto *env = dynamic_cast<Environment *>(layer[0].get())) {
           std::cout << env->get_value();
+        }
+        if (auto *p = dynamic_cast<Player *>(layer[0].get())) {
+          std::cout << p->get_value();
         }
       }
     }
