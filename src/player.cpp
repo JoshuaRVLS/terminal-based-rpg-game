@@ -1,6 +1,9 @@
 #include "player.hpp"
 #include "weapon.hpp"
 
+Player::Player(const std::string &display_value, const Position &position)
+    : Sprite(display_value, 100, 100, 10, position) {}
+
 void Player::attack(Sprite &target, Weapon &weapon) {
   int total_damage = weapon.get_weapon_damage();
   if (target.get_sprite_shield() > 0) {
