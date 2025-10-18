@@ -12,5 +12,8 @@ public:
   virtual ~Object() = default;
 
   Position &get_position();
+
+  std::string &get_value() { return display_value; };
+
   virtual std::string getType() const { return "Object"; }
 };
