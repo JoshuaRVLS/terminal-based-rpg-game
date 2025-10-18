@@ -7,11 +7,10 @@
 #include <memory>
 #include <vector>
 
-
 class Game {
 
   bool running = true;
-  std::unique_ptr<Player> player;
+  Player *player;
   std::vector<std::vector<std::vector<std::unique_ptr<Object>>>> maps;
 
   void init();
@@ -20,6 +19,7 @@ class Game {
   void generate_map();
   void render_map();
   void generate_player();
+  void handle_movement();
 
 public:
   Game();
