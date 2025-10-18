@@ -2,7 +2,6 @@
 #include "object.hpp"
 #include <string>
 
-
 class Sprite;
 class Object;
 
@@ -15,4 +14,7 @@ public:
   virtual void use(Sprite &target) = 0;
 
   std::string getType() const override { return "Item"; }
+
+  std::string &get_item_name();
+  std::string &get_item_description();
 };
