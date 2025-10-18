@@ -22,6 +22,12 @@ void Game::init() {
   generate_player();
 }
 
+void Game::generate_player() {
+  auto new_player = std::make_unique<Player>("P", Position(1, 1));
+  maps[1][1].insert(maps[1][1].begin(), std::move(new_player));
+  player = std::make_unique<Player>("P", Position(1, 1));
+}
+
 void Game::update() {}
 
 void Game::generate_map() {
