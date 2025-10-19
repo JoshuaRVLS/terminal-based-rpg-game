@@ -36,6 +36,14 @@ void Player::init() {
     add_skill(std::make_unique<Skill>("Pierce", "Pierce through armor", 20));
     add_skill(std::make_unique<Skill>("Sweep", "Sweep attack", 18));
     break;
+  case LUMBERJACK:
+    sprite_health = 120;
+    sprite_stamina = 100;
+    sprite_shield = 20;
+
+    add_skill(
+        std::make_unique<Skill>("Power Slash", "Pierce through armor", 20));
+    break;
   }
 
   switch (player_class) {
