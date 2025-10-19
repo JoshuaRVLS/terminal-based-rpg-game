@@ -1,6 +1,5 @@
 #include "utils.hpp"
 #include <algorithm>
-#include <conio.h>
 #include <game.hpp>
 
 #ifdef __linux__
