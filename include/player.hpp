@@ -3,7 +3,7 @@
 #include "weapon.hpp"
 #include <memory>
 
-enum PlayerClass { KNIGHT, MAGE, SPEARMAN };
+enum PlayerClass { KNIGHT, MAGE, SPEARMAN, LUMBERJACK };
 
 class Player : public Sprite {
   std::string name;
