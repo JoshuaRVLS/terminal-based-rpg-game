@@ -1,7 +1,5 @@
-# Recursive wildcard function that works everywhere
-rwildcard = $(foreach d,$(wildcard $(1)*),$(call rwildcard,$(d)/,$(2)) $(filter $(subst *,%,$(2)),$(d)))
 
-# Get all cpp files using pure make functions
+rwildcard = $(foreach d,$(wildcard $(1)*),$(call rwildcard,$(d)/,$(2)) $(filter $(subst *,%,$(2)),$(d)))
 SRC_FILES := $(call rwildcard,src/,*.cpp)
 
 debug:
