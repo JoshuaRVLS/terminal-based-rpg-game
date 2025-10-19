@@ -7,7 +7,7 @@ debug:
 release:
 	g++ -O3 -march=native -flto -DNDEBUG -fno-exceptions \
 	--include-directory="./include" \
-    -fno-rtti -s -ffast-math -funroll-loops \
+	 -s -ffast-math -funroll-loops \
     src/*.cpp -o bin/release/release
 
 run: release
