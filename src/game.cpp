@@ -80,7 +80,7 @@ void Game::generate_player(PlayerClass player_class) {
 }
 
 void Game::handle_movement() {
-  char key = _getch();
+  char key = getch();
   int current_x = player->get_position().get_x();
   int current_y = player->get_position().get_y();
   int new_x = current_x;
@@ -104,12 +104,12 @@ void Game::handle_movement() {
     break;
   case '1':
     std::cout << "Shop feature coming soon!" << std::endl;
-    _getch();
+    getch();
     return;
   case '2':
     std::cout << "Inventory: " << player->get_weapons().size() << " weapons"
               << std::endl;
-    _getch();
+    getch();
     return;
   case '3':
     std::cout << "Skills: " << player->get_skills().size() << " skills"
@@ -119,7 +119,7 @@ void Game::handle_movement() {
       std::cout << i + 1 << ". " << skill->get_skill_name() << " - "
                 << skill->get_skill_description() << std::endl;
     }
-    _getch();
+    getch();
     return;
   default:
     return;
@@ -173,7 +173,7 @@ void Game::handle_movement() {
 }
 
 void Game::handle_battle_input() {
-  char choice = _getch();
+  char choice = getch();
   switch (choice) {
   case '1':
     player_attack();
@@ -189,7 +189,7 @@ void Game::handle_battle_input() {
     break;
   default:
     std::cout << "Invalid choice! Press any key to continue..." << std::endl;
-    _getch();
+    getch();
     return;
   }
 
@@ -206,7 +206,7 @@ void Game::start_battle(Monster &monster) {
   std::cout << "Battle started with " << monster.get_value() << "!"
             << std::endl;
   std::cout << "Press any key to continue..." << std::endl;
-  _getch();
+  getch();
 }
 
 void Game::end_battle(bool player_won) {
@@ -239,7 +239,7 @@ void Game::end_battle(bool player_won) {
 
   current_monster = nullptr;
   std::cout << "Press any key to continue..." << std::endl;
-  _getch();
+  getch();
 }
 
 void Game::player_attack() {
@@ -268,7 +268,7 @@ void Game::player_use_skill() {
   }
   std::cout << "Choose a skill (1-" << player->get_skills().size() << "): ";
 
-  char skill_choice = _getch();
+  char skill_choice = getch();
   int skill_id = skill_choice - '0' - 1;
 
   if (skill_id >= 0 && skill_id < player->get_skills().size()) {
@@ -330,7 +330,8 @@ void Game::check_battle_end() {
 void Game::main_menu() {
   std::cout << "<====================Welcome to JRPG=====================>"
             << std::endl;
-  std::cout << "[1] Knight\n[2] Mage\n[3] Spearman\nSelect your class: "
+  std::cout << "[1] Knight\n[2] Mage\n[3] Spearman\n[4] Lumberjack\nSelect "
+               "your class: "
             << std::endl;
   char option = getch();
   switch (option) {
@@ -342,6 +343,9 @@ void Game::main_menu() {
     break;
   case '3':
     generate_player(SPEARMAN);
+    break;
+  case '4':
+    generate_player(LUMBERJACK);
     break;
   }
   std::cout << "You choose " << player->get_class()
@@ -386,7 +390,6 @@ void Game::generate_map() {
   std::uniform_int_distribution<> monster_dist(1, 3);
 
   std::cout << "Generating borders..." << std::endl;
-
   for (int i = 0; i < maps.size(); i++) {
     for (int j = 0; j < maps[i].size(); j++) {
       if (i == 0 || i == maps.size() - 1 || j == 0 || j == maps[i].size() - 1) {
