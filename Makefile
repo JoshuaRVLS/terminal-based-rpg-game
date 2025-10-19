@@ -1,6 +1,5 @@
-
-rwildcard = $(foreach d,$(wildcard $(1)*),$(call rwildcard,$(d)/,$(2)) $(filter $(subst *,%,$(2)),$(d)))
-SRC_FILES := $(call rwildcard,src/,*.cpp)
+SRC_FILES := $(wildcard src/*.cpp) \
+             $(wildcard src/*/*.cpp) \
 
 debug:
 	@mkdir -p bin/debug
