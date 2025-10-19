@@ -10,7 +10,6 @@
 #include <memory>
 #include <vector>
 
-
 class Game {
   bool running = true;
   bool game_start = false;
